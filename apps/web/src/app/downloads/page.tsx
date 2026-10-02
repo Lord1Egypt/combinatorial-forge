@@ -4,7 +4,7 @@ import { isDatabaseConfigured } from "@/lib/db";
 import { listSnapshots } from "@/lib/snapshot";
 
 export const metadata: Metadata = { title: "Downloads" };
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function Downloads() {
   let snapshots: Awaited<ReturnType<typeof listSnapshots>> = [];

@@ -5,7 +5,7 @@ import { PROBLEMS } from "@/lib/problems";
 import { fmt, results } from "@/lib/results";
 import { loadSiteStats, summarizeChess } from "@/lib/site-data";
 
-export const revalidate = 30;
+export const dynamic = "force-dynamic";
 
 async function heroSolution(): Promise<number[]> {
   try {

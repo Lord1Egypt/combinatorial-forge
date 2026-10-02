@@ -57,6 +57,7 @@ export class ComputeController {
   private engines: EngineHandle[] = [];
   private slots: Promise<void>[] = [];
   private active = new Map<string, StoredClaim>();
+  private settledClaims = new WeakSet<StoredClaim>();
   private resumeQueue: StoredClaim[] = [];
   private listeners = new Set<(s: ComputeSnapshot) => void>();
   private gate: Promise<void> | null = null;
@@ -146,10 +147,14 @@ export class ComputeController {
     this.status = "stopped";
     this.openGate?.();
     this.gate = this.openGate = null;
-    for (const claim of this.active.values()) await this.deps.store.saveClaim(claim).catch(() => undefined);
+    const unfinished = [...this.active.values()];
     for (const engine of this.engines) engine.terminate();
     for (const w of this.wake.splice(0)) w();
     await Promise.allSettled(this.slots);
+    // An upload can finish while stop waits for the slots. Saving before they settle could
+    // recreate a claim that upload already acknowledged and deleted.
+    for (const claim of unfinished)
+      if (!this.settledClaims.has(claim)) await this.deps.store.saveClaim(claim).catch(() => undefined);
     this.engines = [];
     this.slots = [];
     this.active.clear();
@@ -334,6 +339,7 @@ export class ComputeController {
         });
         if (reply.status === 200) {
           await this.deps.store.deleteClaim(claim.job_id);
+          this.settledClaims.add(claim);
           this.jobsCompleted++;
           this.runtimeMs += 0;
           this.message = `Last result: ${String(reply.json.status)}`;
@@ -341,6 +347,7 @@ export class ComputeController {
         }
         if (reply.status !== 429 && reply.status >= 400 && reply.status < 500) {
           await this.deps.store.deleteClaim(claim.job_id);
+          this.settledClaims.add(claim);
           this.message = `The server rejected a result (${String((reply.json.error as { code?: string } | undefined)?.code ?? reply.status)}); the job was dropped.`;
           return;
         }

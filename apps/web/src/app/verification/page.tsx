@@ -5,7 +5,7 @@ import { isDatabaseConfigured } from "@/lib/db";
 import { results } from "@/lib/results";
 
 export const metadata: Metadata = { title: "Verification" };
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 async function policies() {
   if (!isDatabaseConfigured()) return null;

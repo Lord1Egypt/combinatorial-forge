@@ -118,9 +118,20 @@ def test_interrupt_and_resume():
 
 
 def test_hard_kill_recovery():
-    args = [FORGE, "run", "nqueens", "--n", "13", "--workers", "2", "--db", "kill.sqlite"]
+    args = [FORGE, "run", "nqueens", "--n", "15", "--workers", "2", "--db", "kill.sqlite"]
     proc = subprocess.Popen(args, cwd=WORK, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    time.sleep(0.8)
+    deadline = time.monotonic() + 10
+    while time.monotonic() < deadline:
+        try:
+            with sqlite3.connect(os.path.join(WORK, "kill.sqlite"), timeout=0.05) as started:
+                if started.execute("select count(*) from jobs").fetchone()[0] > 0:
+                    break
+        except sqlite3.Error:
+            pass  # migration and job creation may still be in progress
+        time.sleep(0.02)
+    else:
+        raise AssertionError("run did not create jobs before the hard-kill test")
+    check(proc.poll() is None, "run finished before the hard-kill test")
     proc.kill()
     proc.communicate()
     con = db("kill.sqlite")
@@ -130,7 +141,7 @@ def test_hard_kill_recovery():
     out = jforge("resume", "--workers", "3", "--db", "kill.sqlite")
     con = db("kill.sqlite")
     total = json.loads(con.execute("select result from aggregate_results").fetchone()[0])
-    check(total["solutions"] == 73712, "N=13 exact after a hard kill and lease expiry")
+    check(total["solutions"] == 2279184, "N=15 exact after a hard kill and lease expiry")
     check(out["interrupted"] is False, "resume completed")
 
 

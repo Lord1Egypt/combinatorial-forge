@@ -102,7 +102,8 @@ export function EightPuzzleExplorer({ histogram, diameter }: { histogram: number
         {solution?.solvable ? (
           <>
             <p style={{ marginTop: 0 }}>
-              <strong className="num">{(solution.distance ?? 0) - step}</strong> moves from the goal
+              <strong className="num">{(solution.distance ?? 0) - step}</strong>{" "}
+              {(solution.distance ?? 0) - step === 1 ? "move" : "moves"} from the goal
               {step > 0 ? ` (started at ${solution.distance})` : ""}. The highlighted tile is the next move of
               an optimal solution.
             </p>

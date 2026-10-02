@@ -6,7 +6,7 @@ import { PROBLEMS, problemById } from "@/lib/problems";
 import { fmt, results } from "@/lib/results";
 import { loadSiteStats, summarizeChess } from "@/lib/site-data";
 
-export const revalidate = 30;
+export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   return PROBLEMS.map((p) => ({ problem: p.id }));

@@ -24,7 +24,7 @@ export function ChessBoard({ epd, label }: { epd: string; label?: string }) {
         for (let k = 0; k < Number(ch); k++, f++)
           squares.push({ glyph: "", light: (r + f) % 2 === 0, key: `${r}-${f}` });
       } else {
-        squares.push({ glyph: GLYPH[ch] ?? "?", light: (r + f) % 2 === 0, key: `${r}-${f}` });
+        squares.push({ glyph: (GLYPH[ch] ?? "?") + "\uFE0E", light: (r + f) % 2 === 0, key: `${r}-${f}` });
         f++;
       }
     }
@@ -47,7 +47,7 @@ export function QueensBoard({ n, columns, label }: { n: number; columns: number[
     for (let c = 0; c < n; c++)
       cells.push(
         <div key={`${r}-${c}`} className={`sq ${(r + c) % 2 === 0 ? "l" : "d"}`}>
-          {columns[r] === c ? <span>♛</span> : null}
+          {columns[r] === c ? <span>♛{"\uFE0E"}</span> : null}
         </div>,
       );
   return (

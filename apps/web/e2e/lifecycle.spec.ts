@@ -57,10 +57,12 @@ async function jobCounts(request: APIRequestContext, runId: string) {
 
 async function discardIfOffered(page: Page) {
   // After Stop the page lists unfinished claims asynchronously; give the banner a moment to appear.
-  await page
-    .getByRole("button", { name: "Discard" })
-    .click({ timeout: 3000 })
-    .catch(() => undefined);
+  const button = page.getByRole("button", { name: "Discard" });
+  await button.waitFor({ state: "visible", timeout: 3000 }).catch(() => undefined);
+  if (await button.isVisible()) {
+    await button.click();
+    await expect(button).toBeHidden();
+  }
 }
 
 async function contribute(page: Page, until: () => Promise<boolean>) {
@@ -181,6 +183,8 @@ test.describe.serial("distributed lifecycle in real browsers", () => {
       const context = await browser.newContext();
       const page = await context.newPage();
       await page.goto(`${BASE}/compute`);
+      // Both contexts must keep working while Playwright brings the other tab to the foreground.
+      await page.getByRole("checkbox", { name: "Pause when this tab is in the background" }).uncheck();
       await page.getByRole("button", { name: "Start contributing" }).click();
       pages.push(page);
     }
@@ -226,7 +230,7 @@ test.describe.serial("distributed lifecycle in real browsers", () => {
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(e.message));
     await page.goto(`${BASE}/explorer/eight_puzzle`);
-    await expect(page.getByText(/moves from the goal/)).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByText(/moves? from the goal/)).toBeVisible({ timeout: 30_000 });
     await page.goto(`${BASE}/explorer/tictactoe`);
     await expect(page.getByText(/With perfect play from here the result is/)).toBeVisible({
       timeout: 30_000,
@@ -239,7 +243,7 @@ test.describe.serial("distributed lifecycle in real browsers", () => {
     await page.goto(`${BASE}/explorer/chess`);
     await expect(page.getByText("20", { exact: true }).first()).toBeVisible({ timeout: 30_000 });
     await page.getByRole("button", { name: "e2e4" }).click();
-    await expect(page.getByText("1 plies from the start along this path")).toBeVisible();
+    await expect(page.getByText("1 ply from the start along this path")).toBeVisible();
     expect(errors).toEqual([]);
     await page.close();
   });

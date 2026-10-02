@@ -3,7 +3,7 @@ import { fmt, results } from "@/lib/results";
 import { loadSiteStats } from "@/lib/site-data";
 
 export const metadata: Metadata = { title: "Statistics" };
-export const revalidate = 30;
+export const dynamic = "force-dynamic";
 
 export default async function Statistics() {
   const stats = await loadSiteStats();

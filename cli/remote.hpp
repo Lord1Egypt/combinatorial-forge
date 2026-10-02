@@ -10,6 +10,19 @@ namespace forge::cli {
 
 struct HttpReply { int status = 0; std::string body; };
 
+/** Curl reads request bodies from disk; keep lease tokens inside an owner-only directory. */
+struct PrivateTempDir {
+    std::filesystem::path path;
+    PrivateTempDir() {
+        namespace fs = std::filesystem;
+        path = fs::temp_directory_path() / ("forge-http-" + random_hex(16));
+        if (!fs::create_directory(path)) throw std::runtime_error("cannot create private request directory");
+        try { fs::permissions(path, fs::perms::owner_all, fs::perm_options::replace); }
+        catch (...) { fs::remove(path); throw; }
+    }
+    ~PrivateTempDir() { std::error_code ignored; std::filesystem::remove_all(path, ignored); }
+};
+
 inline bool valid_base_url(const std::string& url) {
     const bool secure = url.rfind("https://", 0) == 0;
     const bool local = url.rfind("http://localhost", 0) == 0 || url.rfind("http://127.0.0.1", 0) == 0;
@@ -22,9 +35,8 @@ inline bool valid_base_url(const std::string& url) {
 
 inline HttpReply http_request(const std::string& method, const std::string& url, const std::string& body) {
     namespace fs = std::filesystem;
-    const fs::path dir = fs::temp_directory_path();
-    const std::string stem = "forge-http-" + random_hex(8);
-    const std::string body_path = (dir / (stem + ".req")).string(), out_path = (dir / (stem + ".out")).string(), head_path = (dir / (stem + ".hdr")).string();
+    PrivateTempDir temp;
+    const std::string body_path = (temp.path / "request").string(), out_path = (temp.path / "response").string(), head_path = (temp.path / "headers").string();
     std::vector<std::string> args = {"curl", "-sS", "--max-time", "120", "--proto", url.rfind("https://", 0) == 0 ? "=https" : "=http",
                                      "-X", method, "-H", "Accept: application/json", "-H", "User-Agent: forge-cli/1", "-o", out_path, "-D", head_path};
     if (!body.empty()) {
@@ -42,7 +54,6 @@ inline HttpReply http_request(const std::string& method, const std::string& url,
             reply.body = slurp_file(out_path);
         }
     } catch (const std::exception&) {}
-    std::remove(body_path.c_str()); std::remove(out_path.c_str()); std::remove(head_path.c_str());
     if (rc != 0) throw std::runtime_error("curl failed (exit " + std::to_string(rc) + "); is curl installed and the server reachable?");
     return reply;
 }

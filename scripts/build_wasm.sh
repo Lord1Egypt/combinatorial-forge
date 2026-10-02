@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Builds the engine to WebAssembly (needs Emscripten on PATH) and records provenance.
 set -euo pipefail
+command -v em++ >/dev/null || { echo 'Emscripten em++ is required' >&2; exit 127; }
 root="$(cd "$(dirname "$0")/.." && pwd)"
 out="$root/apps/web/public/wasm"
 mkdir -p "$out"

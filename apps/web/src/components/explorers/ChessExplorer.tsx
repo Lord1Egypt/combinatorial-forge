@@ -117,7 +117,7 @@ export function ChessExplorer() {
               <dt>Depth</dt>
               <dd>
                 {depth !== null
-                  ? `${depth} plies from the start along this path`
+                  ? `${depth} ${depth === 1 ? "ply" : "plies"} from the start along this path`
                   : "unknown (loaded directly)"}
               </dd>
               <dt>Side to move</dt>

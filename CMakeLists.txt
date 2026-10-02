@@ -91,6 +91,7 @@ target_compile_definitions(forge PRIVATE
 target_link_libraries(forge PRIVATE sqlite3_static Threads::Threads)
 if(WIN32)
   target_link_libraries(forge PRIVATE ws2_32)
+  target_compile_definitions(forge PRIVATE NOMINMAX)
 endif()
 forge_harden(forge)
 
