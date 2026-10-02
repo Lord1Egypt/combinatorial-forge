@@ -20,3 +20,6 @@ node_modules/
 *.sqlite-wal
 *.sqlite-shm
 *.tsbuildinfo
+.data/
+playwright-report/
+test-results/

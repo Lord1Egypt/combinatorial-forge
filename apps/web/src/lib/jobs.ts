@@ -90,6 +90,7 @@ export async function createRun(
   problem: string,
   parameters: Obj,
   definitions: unknown[],
+  priority = 0,
 ): Promise<{ runId: string; totalJobs: number; inserted: number }> {
   const defs: JobDefinition[] = definitions.map(validateJobDefinition);
   if (defs.length === 0) throw new ApiError(400, "empty_run", "a run needs at least one job");
@@ -111,8 +112,8 @@ export async function createRun(
   let inserted = 0;
   for (let start = 0; start < defs.length; start += 200) {
     const statements: InStatement[] = defs.slice(start, start + 200).map((def) => ({
-      sql: "INSERT OR IGNORE INTO jobs (job_id, run_id, problem, problem_version, solver_version, payload, status, priority, created_at, updated_at) VALUES (?, ?, ?, '1', ?, ?, 'pending', 0, ?, ?)",
-      args: [jobIdOf(def), runId, problem, solver, canonicalJson(def), now, now],
+      sql: "INSERT OR IGNORE INTO jobs (job_id, run_id, problem, problem_version, solver_version, payload, status, priority, created_at, updated_at) VALUES (?, ?, ?, '1', ?, ?, 'pending', ?, ?, ?)",
+      args: [jobIdOf(def), runId, problem, solver, canonicalJson(def), priority, now, now],
     }));
     const results = await batchWrite(ctx.db, statements);
     inserted += results.reduce((n, r) => n + r.rowsAffected, 0);

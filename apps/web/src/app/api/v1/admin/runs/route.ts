@@ -28,6 +28,7 @@ export const POST = route(async (request: Request) => {
   } else throw new ApiError(400, "unsupported_problem", "runs can be created for nqueens or chess");
   if (plan.length > MAX_JOBS)
     throw new ApiError(400, "run_too_large", `a run may have at most ${MAX_JOBS} jobs; use a smaller split`);
-  const run = await createRun(await context(), String(body.problem), parameters, plan);
+  const priority = needInt(body.priority ?? 0, "priority", 0, 100);
+  const run = await createRun(await context(), String(body.problem), parameters, plan, priority);
   return json({ run_id: run.runId, total_jobs: run.totalJobs, newly_inserted: run.inserted }, 201);
 });
