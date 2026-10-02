@@ -14,6 +14,17 @@ project includes an exact solver, an exhaustive analysis, a verification path,
 and a command-line interface. Counts are computed from source; no published
 answer is embedded in an implementation.
 
+The development branch also contains a [web explorer](apps/web), a native
+`forge` worker, and a distributed job service. Native and browser compute use
+the same C++ engine; the browser runs its WebAssembly build only after a visitor
+presses **Start**. Work can be checkpointed and resumed. Public submissions are
+stored as unverified until independent matching work or a trusted recomputation
+settles them. Local development uses SQLite; an online deployment needs a
+server-side libSQL database. See [deployment](docs/deployment.md) and
+[security](docs/security.md).
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FLord1Egypt%2Fcombinatorial-forge%2Ftree%2Ffeature%2Fdistributed-web&root-directory=apps%2Fweb&env=TURSO_DATABASE_URL%2CTURSO_AUTH_TOKEN%2CADMIN_TOKEN&envDescription=Use%20your%20own%20libSQL%20database%20and%20a%20new%20admin%20token&envLink=https%3A%2F%2Fgithub.com%2FLord1Egypt%2Fcombinatorial-forge%2Fblob%2Ffeature%2Fdistributed-web%2Fdocs%2Fdeployment.md)
+
 ## Projects and verified results
 
 <!-- BEGIN VERIFIED RESULTS -->
@@ -46,7 +57,8 @@ is a wall-time observation on a particular machine; it can vary between runs.
 
 Requirements: a C++17 compiler, CMake 3.16+, Python 3 for verification scripts,
 and a shell for the convenience scripts. The C++ binaries also build with MSVC;
-the shell scripts target POSIX systems. There are no third-party libraries.
+the shell scripts target POSIX systems. The original four solvers have no
+third-party dependencies; `forge` builds with a vendored SQLite library.
 
 ```sh
 cmake -S . -B build-release -DCMAKE_BUILD_TYPE=Release
@@ -132,6 +144,11 @@ earlier verified run are preserved in [provenance](docs/provenance.md).
 ```text
 assets/          lightweight local banner
 src/             four C++17 projects; N-Queens original sources in provenance/
+engine/          shared deterministic C++ engine and chess core
+cli/             native forge worker, SQLite store, snapshot and local explorer
+wasm/            browser/server entry point for the shared engine
+apps/web/        Next.js site, libSQL API, browser compute and tests
+database/        versioned migrations and protocol fixtures
 tests/           smoke tests and generated-result consistency checks
 scripts/         N-Queens CLI, exhaustive runner, benchmark runner
 results/         generated JSON plus full Markdown tables
@@ -140,6 +157,25 @@ docs/            methodology, verification, environment, provenance
 ```
 
 ## Limits and contributions
+
+Chess is a **research computation**, limited to explicitly completed finite
+depths. A depth-limited move-sequence count is different from a count of unique
+positions, and neither solves chess. See [chess methodology](docs/chess.md).
+
+The shared-engine development workflow is:
+
+```sh
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --parallel
+ctest --test-dir build --output-on-failure
+cd apps/web && npm ci && npm run lint && npm run typecheck && npm test && npm run build
+```
+
+`npm run verify:wasm` compares the checked-in WASM binary with the native
+`build/forge` binary. To rebuild WASM from source, install Emscripten and run
+`scripts/build_wasm.sh` from the repository root. The web API migrates its
+database on first access; administration, snapshots, and job creation use the
+authenticated API. The native CLI supports local export, import, and merge.
 
 N-Queens is intentionally limited to the exhaustively verified N=1–18 range;
 larger N take much more time and eventually exceed the 64-bit result type.

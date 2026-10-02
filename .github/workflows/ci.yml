@@ -18,3 +18,36 @@ jobs:
         run: cmake --build build-ci --config Release --parallel 2
       - name: Test
         run: ctest --test-dir build-ci -C Release --output-on-failure
+
+  web-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+      - name: Build native engine for parity tests
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DFORGE_WARNINGS_AS_ERRORS=ON
+          cmake --build build --target forge --parallel 2
+      - name: Install locked web dependencies
+        run: npm ci
+        working-directory: apps/web
+      - name: Lint, typecheck and test
+        run: |
+          npm run lint
+          npm run format:check
+          npm run typecheck
+          npm test
+        working-directory: apps/web
+      - name: Production build
+        run: npm run build
+        working-directory: apps/web
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+        working-directory: apps/web
+      - name: Browser end-to-end tests
+        run: npm run e2e
+        working-directory: apps/web

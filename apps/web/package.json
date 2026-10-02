@@ -17,10 +17,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "node scripts/sync-results.mjs && node scripts/gen-migrations.mjs && vitest run",
-    "db:migrate": "node --experimental-strip-types scripts/migrate.ts",
     "e2e": "playwright test",
-    "snapshot": "node --experimental-strip-types scripts/snapshot.ts",
-    "seed:run": "node --experimental-strip-types scripts/seed-run.ts"
+    "verify:wasm": "vitest run tests/wasm-native.test.ts"
   },
   "dependencies": {
     "@libsql/client": "0.18.0",

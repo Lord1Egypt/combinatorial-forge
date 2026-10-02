@@ -49,3 +49,20 @@ its own compute time with `std::chrono::steady_clock`.
 
 The earlier N=18 provenance measurements are recorded separately in
 [`docs/provenance.md`](provenance.md).
+
+## Shared engine API smoke benchmark (2026-10-02)
+
+On the same WSL2 host above, GCC 13.3.0 `-O3` and the checked-in Emscripten
+6.0.10 WASM build each handled 20 warm `chess.perft` requests from the initial
+position at depth 4. The native binary called `forge::api::handle` in-process;
+Node 25.8.1 called the WASM `forge_call` export after module initialization.
+Both returned 197,281 nodes and 1,576 captures.
+
+| Engine | 20 calls | Per call |
+|:--|--:|--:|
+| Native C++ | 452.006 ms | 22.600 ms |
+| WASM in Node | 416.050 ms | 20.802 ms |
+
+The observed WASM/native ratio was 0.92 for this one warm batch. It excludes
+process startup, network/database work, and browser scheduling, so it is a
+representative engine comparison rather than a deployment throughput claim.
