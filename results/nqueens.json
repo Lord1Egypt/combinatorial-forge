@@ -1,0 +1,114 @@
+{
+  "rows": [
+    {
+      "iterative_seconds": 1.1e-07,
+      "n": 1,
+      "recursive_seconds": 1.1e-07,
+      "solutions": 1
+    },
+    {
+      "iterative_seconds": 0.00075383,
+      "n": 2,
+      "recursive_seconds": 0.00054219,
+      "solutions": 0
+    },
+    {
+      "iterative_seconds": 0.00063591,
+      "n": 3,
+      "recursive_seconds": 0.00159929,
+      "solutions": 0
+    },
+    {
+      "iterative_seconds": 0.00057596,
+      "n": 4,
+      "recursive_seconds": 0.00055044,
+      "solutions": 2
+    },
+    {
+      "iterative_seconds": 0.00082027,
+      "n": 5,
+      "recursive_seconds": 0.00068178,
+      "solutions": 10
+    },
+    {
+      "iterative_seconds": 0.0007898,
+      "n": 6,
+      "recursive_seconds": 0.00085305,
+      "solutions": 4
+    },
+    {
+      "iterative_seconds": 0.00060368,
+      "n": 7,
+      "recursive_seconds": 0.00067166,
+      "solutions": 40
+    },
+    {
+      "iterative_seconds": 0.0006248,
+      "n": 8,
+      "recursive_seconds": 0.00060335,
+      "solutions": 92
+    },
+    {
+      "iterative_seconds": 0.00075735,
+      "n": 9,
+      "recursive_seconds": 0.00069135,
+      "solutions": 352
+    },
+    {
+      "iterative_seconds": 0.00082907,
+      "n": 10,
+      "recursive_seconds": 0.00070906,
+      "solutions": 724
+    },
+    {
+      "iterative_seconds": 0.00087934,
+      "n": 11,
+      "recursive_seconds": 0.00098208,
+      "solutions": 2680
+    },
+    {
+      "iterative_seconds": 0.00164747,
+      "n": 12,
+      "recursive_seconds": 0.00155881,
+      "solutions": 14200
+    },
+    {
+      "iterative_seconds": 0.0049192,
+      "n": 13,
+      "recursive_seconds": 0.00485485,
+      "solutions": 73712
+    },
+    {
+      "iterative_seconds": 0.0278969,
+      "n": 14,
+      "recursive_seconds": 0.0231086,
+      "solutions": 365596
+    },
+    {
+      "iterative_seconds": 0.164919,
+      "n": 15,
+      "recursive_seconds": 0.151311,
+      "solutions": 2279184
+    },
+    {
+      "iterative_seconds": 0.963792,
+      "n": 16,
+      "recursive_seconds": 0.908554,
+      "solutions": 14772512
+    },
+    {
+      "iterative_seconds": 7.18475,
+      "n": 17,
+      "recursive_seconds": 6.81868,
+      "solutions": 95815104
+    },
+    {
+      "iterative_seconds": 57.0897,
+      "n": 18,
+      "recursive_seconds": 49.6746,
+      "solutions": 666090624
+    }
+  ],
+  "verified_through": 18,
+  "worker_threads": 6
+}

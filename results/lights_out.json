@@ -1,0 +1,28 @@
+{
+  "every_board_cross_checked": true,
+  "maximum_minimum_moves": 15,
+  "minimum_move_distribution": [
+    1,
+    25,
+    300,
+    2300,
+    12650,
+    53130,
+    176176,
+    467104,
+    982335,
+    1596279,
+    1935294,
+    1684446,
+    1004934,
+    383670,
+    82614,
+    7350
+  ],
+  "nullity": 2,
+  "rank": 23,
+  "runtime_seconds": 1.602564,
+  "solvable_states": 8388608,
+  "total_states": 33554432,
+  "unsolvable_states": 25165824
+}

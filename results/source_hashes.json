@@ -1,0 +1,9 @@
+{
+  "src/eight_puzzle/main.cpp": "11bf4a45c36c32554feb95eb110d0717967a5d04ab5397ee3f0e13b5e8bbef6a",
+  "src/lights_out/main.cpp": "e262baa7115fdb0b2063e9e00a6a0bb1c8fedf71ca0c7a56b38919370ffe2aac",
+  "src/nqueens/provenance/queens_iterative.cpp": "1bf969dfe967d79d81e4bc1bd73ed4e0c9fa333f3f6e3b0f2d3df04dc126fd6b",
+  "src/nqueens/provenance/queens_recursive.cpp": "a25fd3ca9170760387c1a137e309bfd643e4cff2780167c45f1b2457704638cf",
+  "src/nqueens/queens_iterative.cpp": "1d68f5cfeadcd3c540c17a4ec9463fcef9028bce68b3a0ff249cbc345e8bc34f",
+  "src/nqueens/queens_recursive.cpp": "6adb32f7b0c1a04427da582a1058e323e7eeb3cf4a5e312dc598cb3bd8bf173f",
+  "src/tictactoe/main.cpp": "fe85d23e273d2528429664da55d5b626440f034e7f5ddeaab95fd4e1591b9d70"
+}

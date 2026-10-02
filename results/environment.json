@@ -1,0 +1,11 @@
+{
+  "build_type": "Release",
+  "cmake": "cmake version 3.28.3",
+  "compiler": "c++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cpu": "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz",
+  "logical_cpus": 12,
+  "measured_at_utc": "2026-10-02T07:18:35+00:00",
+  "os": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "python": "3.13.13",
+  "worker_threads": 6
+}

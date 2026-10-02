@@ -1,0 +1,14 @@
+{
+  "canonical_positions": 765,
+  "canonical_terminal_positions": 138,
+  "complete_games": 255168,
+  "draws": 46080,
+  "maximum_depth": 9,
+  "o_wins": 77904,
+  "perfect_play": "draw",
+  "reachable_positions": 5478,
+  "runtime_seconds": 0.020809,
+  "terminal_positions": 958,
+  "verified": true,
+  "x_wins": 131184
+}
