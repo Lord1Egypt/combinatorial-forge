@@ -1,0 +1,88 @@
+{
+  "description": "Canonical job definitions and SHA-256 job ids; verified by both the C++ engine and the TypeScript server.",
+  "cases": [
+    {
+      "definition": {
+        "problem": "nqueens",
+        "problem_version": "1",
+        "solver_version": "nqueens-bitmask-prefix/1",
+        "algorithm": "bitmask-prefix",
+        "parameters": {
+          "n": 8
+        },
+        "root_state": null,
+        "partition": {
+          "prefix": []
+        },
+        "range": null,
+        "depth": null
+      },
+      "canonical": "{\"algorithm\":\"bitmask-prefix\",\"depth\":null,\"parameters\":{\"n\":8},\"partition\":{\"prefix\":[]},\"problem\":\"nqueens\",\"problem_version\":\"1\",\"range\":null,\"root_state\":null,\"solver_version\":\"nqueens-bitmask-prefix/1\"}",
+      "job_id": "9109307b7f9a399b5789f2d0ce9e5f0659066e32deaf371109f23cf9ed1990c7"
+    },
+    {
+      "definition": {
+        "problem": "nqueens",
+        "problem_version": "1",
+        "solver_version": "nqueens-bitmask-prefix/1",
+        "algorithm": "bitmask-prefix",
+        "parameters": {
+          "n": 12
+        },
+        "root_state": null,
+        "partition": {
+          "prefix": [
+            0,
+            2,
+            4
+          ]
+        },
+        "range": null,
+        "depth": null
+      },
+      "canonical": "{\"algorithm\":\"bitmask-prefix\",\"depth\":null,\"parameters\":{\"n\":12},\"partition\":{\"prefix\":[0,2,4]},\"problem\":\"nqueens\",\"problem_version\":\"1\",\"range\":null,\"root_state\":null,\"solver_version\":\"nqueens-bitmask-prefix/1\"}",
+      "job_id": "ec05d82323c1503b3816c573cc11b198bfe731654978a95d93a48ef223f38f43"
+    },
+    {
+      "definition": {
+        "problem": "chess",
+        "problem_version": "1",
+        "solver_version": "chess-perft/1",
+        "algorithm": "perft",
+        "parameters": {},
+        "root_state": {
+          "epd": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"
+        },
+        "partition": {
+          "path": []
+        },
+        "range": null,
+        "depth": 4
+      },
+      "canonical": "{\"algorithm\":\"perft\",\"depth\":4,\"parameters\":{},\"partition\":{\"path\":[]},\"problem\":\"chess\",\"problem_version\":\"1\",\"range\":null,\"root_state\":{\"epd\":\"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -\"},\"solver_version\":\"chess-perft/1\"}",
+      "job_id": "028bbc3f0ae1bc4190b2e6e250628e46b33d279ba66cb6c195252b40c19f047b"
+    },
+    {
+      "definition": {
+        "problem": "chess",
+        "problem_version": "1",
+        "solver_version": "chess-perft/1",
+        "algorithm": "perft",
+        "parameters": {},
+        "root_state": {
+          "epd": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"
+        },
+        "partition": {
+          "path": [
+            "e2e4",
+            "e7e5"
+          ]
+        },
+        "range": null,
+        "depth": 3
+      },
+      "canonical": "{\"algorithm\":\"perft\",\"depth\":3,\"parameters\":{},\"partition\":{\"path\":[\"e2e4\",\"e7e5\"]},\"problem\":\"chess\",\"problem_version\":\"1\",\"range\":null,\"root_state\":{\"epd\":\"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -\"},\"solver_version\":\"chess-perft/1\"}",
+      "job_id": "6dd5d6fbb7f0391e007e65797863c44789490a8f362f402418227259bd4d2be0"
+    }
+  ]
+}

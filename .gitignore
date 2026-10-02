@@ -9,3 +9,14 @@ __pycache__/
 *.lib
 .DS_Store
 Thumbs.db
+/build-*/
+node_modules/
+.next/
+.vercel/
+.env
+.env.*
+!.env.example
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.tsbuildinfo
