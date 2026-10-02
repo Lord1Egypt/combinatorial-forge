@@ -12,6 +12,7 @@
 #include <ws2tcpip.h>
 using socket_t = SOCKET;
 #define FORGE_CLOSE_SOCKET closesocket
+#define FORGE_SHUT_SEND SD_SEND
 #else
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -19,6 +20,7 @@ using socket_t = SOCKET;
 #include <sys/socket.h>
 using socket_t = int;
 #define FORGE_CLOSE_SOCKET close
+#define FORGE_SHUT_SEND SHUT_WR
 constexpr int INVALID_SOCKET = -1;
 #endif
 
@@ -227,6 +229,17 @@ inline int serve(const std::string& db_path, int port) {
             int n = int(send(client, data.data() + sent, int(data.size() - sent), 0));
             if (n <= 0) break;
             sent += size_t(n);
+        }
+        // A rejected POST can still have unread body bytes. Drain them after sending the
+        // response so Winsock does not reset the connection before the client sees the 405.
+        if (request.rfind("GET ", 0) != 0) {
+            shutdown(client, FORGE_SHUT_SEND);
+            size_t drained = 0;
+            while (drained < 65536) {
+                int n = int(recv(client, buffer, sizeof buffer, 0));
+                if (n <= 0) break;
+                drained += size_t(n);
+            }
         }
         FORGE_CLOSE_SOCKET(client);
     }
