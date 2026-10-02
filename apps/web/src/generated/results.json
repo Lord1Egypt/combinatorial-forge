@@ -1,0 +1,218 @@
+{
+  "nqueens": {
+    "rows": [
+      {
+        "iterative_seconds": 1.1e-7,
+        "n": 1,
+        "recursive_seconds": 1.1e-7,
+        "solutions": 1
+      },
+      {
+        "iterative_seconds": 0.00075383,
+        "n": 2,
+        "recursive_seconds": 0.00054219,
+        "solutions": 0
+      },
+      {
+        "iterative_seconds": 0.00063591,
+        "n": 3,
+        "recursive_seconds": 0.00159929,
+        "solutions": 0
+      },
+      {
+        "iterative_seconds": 0.00057596,
+        "n": 4,
+        "recursive_seconds": 0.00055044,
+        "solutions": 2
+      },
+      {
+        "iterative_seconds": 0.00082027,
+        "n": 5,
+        "recursive_seconds": 0.00068178,
+        "solutions": 10
+      },
+      {
+        "iterative_seconds": 0.0007898,
+        "n": 6,
+        "recursive_seconds": 0.00085305,
+        "solutions": 4
+      },
+      {
+        "iterative_seconds": 0.00060368,
+        "n": 7,
+        "recursive_seconds": 0.00067166,
+        "solutions": 40
+      },
+      {
+        "iterative_seconds": 0.0006248,
+        "n": 8,
+        "recursive_seconds": 0.00060335,
+        "solutions": 92
+      },
+      {
+        "iterative_seconds": 0.00075735,
+        "n": 9,
+        "recursive_seconds": 0.00069135,
+        "solutions": 352
+      },
+      {
+        "iterative_seconds": 0.00082907,
+        "n": 10,
+        "recursive_seconds": 0.00070906,
+        "solutions": 724
+      },
+      {
+        "iterative_seconds": 0.00087934,
+        "n": 11,
+        "recursive_seconds": 0.00098208,
+        "solutions": 2680
+      },
+      {
+        "iterative_seconds": 0.00164747,
+        "n": 12,
+        "recursive_seconds": 0.00155881,
+        "solutions": 14200
+      },
+      {
+        "iterative_seconds": 0.0049192,
+        "n": 13,
+        "recursive_seconds": 0.00485485,
+        "solutions": 73712
+      },
+      {
+        "iterative_seconds": 0.0278969,
+        "n": 14,
+        "recursive_seconds": 0.0231086,
+        "solutions": 365596
+      },
+      {
+        "iterative_seconds": 0.164919,
+        "n": 15,
+        "recursive_seconds": 0.151311,
+        "solutions": 2279184
+      },
+      {
+        "iterative_seconds": 0.963792,
+        "n": 16,
+        "recursive_seconds": 0.908554,
+        "solutions": 14772512
+      },
+      {
+        "iterative_seconds": 7.18475,
+        "n": 17,
+        "recursive_seconds": 6.81868,
+        "solutions": 95815104
+      },
+      {
+        "iterative_seconds": 57.0897,
+        "n": 18,
+        "recursive_seconds": 49.6746,
+        "solutions": 666090624
+      }
+    ],
+    "verified_through": 18,
+    "worker_threads": 6
+  },
+  "tictactoe": {
+    "canonical_positions": 765,
+    "canonical_terminal_positions": 138,
+    "complete_games": 255168,
+    "draws": 46080,
+    "maximum_depth": 9,
+    "o_wins": 77904,
+    "perfect_play": "draw",
+    "reachable_positions": 5478,
+    "runtime_seconds": 0.020809,
+    "terminal_positions": 958,
+    "verified": true,
+    "x_wins": 131184
+  },
+  "eight_puzzle": {
+    "all_paths_replayed": true,
+    "diameter": 31,
+    "histogram": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      20,
+      39,
+      62,
+      116,
+      152,
+      286,
+      396,
+      748,
+      1024,
+      1893,
+      2512,
+      4485,
+      5638,
+      9529,
+      10878,
+      16993,
+      17110,
+      23952,
+      20224,
+      24047,
+      15578,
+      14560,
+      6274,
+      3910,
+      760,
+      221,
+      2
+    ],
+    "reachable_states": 181440,
+    "runtime_seconds": 0.305374
+  },
+  "lights_out": {
+    "every_board_cross_checked": true,
+    "maximum_minimum_moves": 15,
+    "minimum_move_distribution": [
+      1,
+      25,
+      300,
+      2300,
+      12650,
+      53130,
+      176176,
+      467104,
+      982335,
+      1596279,
+      1935294,
+      1684446,
+      1004934,
+      383670,
+      82614,
+      7350
+    ],
+    "nullity": 2,
+    "rank": 23,
+    "runtime_seconds": 1.602564,
+    "solvable_states": 8388608,
+    "total_states": 33554432,
+    "unsolvable_states": 25165824
+  },
+  "environment": {
+    "build_type": "Release",
+    "cmake": "cmake version 3.28.3",
+    "compiler": "c++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "cpu": "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz",
+    "logical_cpus": 12,
+    "measured_at_utc": "2026-10-02T07:18:35+00:00",
+    "os": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "python": "3.13.13",
+    "worker_threads": 6
+  },
+  "source_hashes": {
+    "src/eight_puzzle/main.cpp": "11bf4a45c36c32554feb95eb110d0717967a5d04ab5397ee3f0e13b5e8bbef6a",
+    "src/lights_out/main.cpp": "e262baa7115fdb0b2063e9e00a6a0bb1c8fedf71ca0c7a56b38919370ffe2aac",
+    "src/nqueens/provenance/queens_iterative.cpp": "1bf969dfe967d79d81e4bc1bd73ed4e0c9fa333f3f6e3b0f2d3df04dc126fd6b",
+    "src/nqueens/provenance/queens_recursive.cpp": "a25fd3ca9170760387c1a137e309bfd643e4cff2780167c45f1b2457704638cf",
+    "src/nqueens/queens_iterative.cpp": "1d68f5cfeadcd3c540c17a4ec9463fcef9028bce68b3a0ff249cbc345e8bc34f",
+    "src/nqueens/queens_recursive.cpp": "6adb32f7b0c1a04427da582a1058e323e7eeb3cf4a5e312dc598cb3bd8bf173f",
+    "src/tictactoe/main.cpp": "fe85d23e273d2528429664da55d5b626440f034e7f5ddeaab95fd4e1591b9d70"
+  }
+}

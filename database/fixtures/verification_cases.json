@@ -1,0 +1,215 @@
+{
+  "description": "Verification policy conformance cases, executed by both cli/store.hpp (C++) and apps/web/src/lib/policy.ts (TypeScript).",
+  "cases": [
+    {
+      "name": "single submission needs a second",
+      "required": 2,
+      "submissions": [
+        {
+          "worker": "a",
+          "hash": "X",
+          "trusted": false
+        }
+      ],
+      "expect": {
+        "status": "submitted",
+        "hash": null
+      }
+    },
+    {
+      "name": "two matching distinct workers verify",
+      "required": 2,
+      "submissions": [
+        {
+          "worker": "a",
+          "hash": "X",
+          "trusted": false
+        },
+        {
+          "worker": "b",
+          "hash": "X",
+          "trusted": false
+        }
+      ],
+      "expect": {
+        "status": "verified",
+        "hash": "X"
+      }
+    },
+    {
+      "name": "two different results are disputed",
+      "required": 2,
+      "submissions": [
+        {
+          "worker": "a",
+          "hash": "X",
+          "trusted": false
+        },
+        {
+          "worker": "b",
+          "hash": "Y",
+          "trusted": false
+        }
+      ],
+      "expect": {
+        "status": "disputed",
+        "hash": null
+      }
+    },
+    {
+      "name": "a third matching submission resolves a dispute",
+      "required": 2,
+      "submissions": [
+        {
+          "worker": "a",
+          "hash": "X",
+          "trusted": false
+        },
+        {
+          "worker": "b",
+          "hash": "Y",
+          "trusted": false
+        },
+        {
+          "worker": "c",
+          "hash": "Y",
+          "trusted": false
+        }
+      ],
+      "expect": {
+        "status": "verified",
+        "hash": "Y"
+      }
+    },
+    {
+      "name": "a trusted submission decides alone",
+      "required": 2,
+      "submissions": [
+        {
+          "worker": "t",
+          "hash": "Z",
+          "trusted": true
+        }
+      ],
+      "expect": {
+        "status": "verified",
+        "hash": "Z"
+      }
+    },
+    {
+      "name": "a trusted submission overrides two matching untrusted ones",
+      "required": 2,
+      "submissions": [
+        {
+          "worker": "a",
+          "hash": "X",
+          "trusted": false
+        },
+        {
+          "worker": "b",
+          "hash": "X",
+          "trusted": false
+        },
+        {
+          "worker": "t",
+          "hash": "Z",
+          "trusted": true
+        }
+      ],
+      "expect": {
+        "status": "verified",
+        "hash": "Z"
+      }
+    },
+    {
+      "name": "required 1 verifies immediately",
+      "required": 1,
+      "submissions": [
+        {
+          "worker": "a",
+          "hash": "X",
+          "trusted": false
+        }
+      ],
+      "expect": {
+        "status": "verified",
+        "hash": "X"
+      }
+    },
+    {
+      "name": "three distinct results stay disputed",
+      "required": 2,
+      "submissions": [
+        {
+          "worker": "a",
+          "hash": "X",
+          "trusted": false
+        },
+        {
+          "worker": "b",
+          "hash": "Y",
+          "trusted": false
+        },
+        {
+          "worker": "c",
+          "hash": "W",
+          "trusted": false
+        }
+      ],
+      "expect": {
+        "status": "disputed",
+        "hash": null
+      }
+    },
+    {
+      "name": "required 3 with 2 matching and 1 different is disputed",
+      "required": 3,
+      "submissions": [
+        {
+          "worker": "a",
+          "hash": "X",
+          "trusted": false
+        },
+        {
+          "worker": "b",
+          "hash": "X",
+          "trusted": false
+        },
+        {
+          "worker": "c",
+          "hash": "Y",
+          "trusted": false
+        }
+      ],
+      "expect": {
+        "status": "disputed",
+        "hash": null
+      }
+    },
+    {
+      "name": "required 3 with 3 matching verifies",
+      "required": 3,
+      "submissions": [
+        {
+          "worker": "a",
+          "hash": "X",
+          "trusted": false
+        },
+        {
+          "worker": "b",
+          "hash": "X",
+          "trusted": false
+        },
+        {
+          "worker": "c",
+          "hash": "X",
+          "trusted": false
+        }
+      ],
+      "expect": {
+        "status": "verified",
+        "hash": "X"
+      }
+    }
+  ]
+}

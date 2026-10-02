@@ -1,0 +1,7 @@
+{
+  "emcc": "emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.10 (d6c521a7f05449857c76bd99e396895583cf2083)",
+  "engine_sources_sha256": "a2ccdbbf32aae3d711661b602e875a41bd85e9f7b6542f63b602e3a9f7f055bb",
+  "flags": "-O3 -fwasm-exceptions -sMODULARIZE=1 -sALLOW_MEMORY_GROWTH=1 -sSTACK_SIZE=1MB",
+  "forge.js": "266e5ec933c2ba012daf6d22d54e386845fdf0ee8543052d91bf365c9e2bfa93",
+  "forge.wasm": "c1c7187c6317df4d6aa95d265dfcca8b34199db73a5ba01027b2ec6fe911bec2"
+}

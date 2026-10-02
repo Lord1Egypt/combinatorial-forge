@@ -42,11 +42,11 @@ def check(condition, message):
 
 def test_init_and_migrations():
     out = jforge("init", "--db", "init.sqlite")
-    check(out["schema_version"] == 2, "schema version after init")
+    check(out["schema_version"] == 3, "schema version after init")
     con = db("init.sqlite")
     tables = {r[0] for r in con.execute("select name from sqlite_master where type='table'")}
     for t in ["jobs", "job_leases", "submissions", "verifications", "aggregate_results", "snapshots", "runs", "problems", "solver_versions",
-              "schema_migrations", "chess_positions", "chess_edges", "chess_layers"]:
+              "schema_migrations", "snapshot_files", "chess_positions", "chess_edges", "chess_layers"]:
         check(t in tables, f"table {t} exists")
     check(con.execute("select count(*) from problems").fetchone()[0] == 5, "problems seeded")
     # re-running migrations is a no-op; tampering with an applied migration is detected

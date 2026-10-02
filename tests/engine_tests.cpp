@@ -201,6 +201,10 @@ static void test_api() {
     Json x = Json::parse(api::handle("{\"method\":\"ttt.position\",\"params\":{\"board\":\"---------\"}}"));
     CHECK_EQ(x.at("result").at("minimax").as_string(), std::string("draw"));
     CHECK_EQ(x.at("result").at("children").items().size(), size_t(9));
+    Json q = Json::parse(api::handle("{\"method\":\"nqueens.examples\",\"params\":{\"n\":8,\"limit\":3}}"));
+    CHECK_EQ(q.at("result").at("solutions").items().size(), size_t(3));
+    CHECK_EQ(q.at("result").at("solutions").items()[0].dump(), std::string("[0,4,7,5,2,6,1,3]"));
+    CHECK(!Json::parse(api::handle("{\"method\":\"nqueens.examples\",\"params\":{\"n\":40}}")).at("ok").as_bool());
 }
 
 int main(int argc, char** argv) {

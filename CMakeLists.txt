@@ -54,7 +54,7 @@ if(NOT MSVC)
 endif()
 target_link_libraries(sqlite3_static PUBLIC Threads::Threads ${CMAKE_DL_LIBS})
 
-file(GLOB FORGE_MIGRATIONS ${CMAKE_SOURCE_DIR}/database/migrations/*.sql)
+file(GLOB FORGE_MIGRATIONS CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/database/migrations/*.sql)
 set(FORGE_MIGRATIONS_CPP ${CMAKE_BINARY_DIR}/generated/migrations_data.cpp)
 add_custom_command(
   OUTPUT ${FORGE_MIGRATIONS_CPP}
@@ -99,5 +99,11 @@ target_include_directories(engine_tests PRIVATE engine)
 target_link_libraries(engine_tests PRIVATE Threads::Threads)
 forge_harden(engine_tests)
 
+add_executable(policy_tests tests/policy_tests.cpp)
+target_include_directories(policy_tests PRIVATE engine cli)
+target_link_libraries(policy_tests PRIVATE sqlite3_static Threads::Threads)
+forge_harden(policy_tests)
+
+add_test(NAME policy COMMAND policy_tests ${CMAKE_SOURCE_DIR})
 add_test(NAME engine COMMAND engine_tests ${CMAKE_SOURCE_DIR})
 add_test(NAME cli COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/cli_test.py $<TARGET_FILE:forge> ${CMAKE_SOURCE_DIR})

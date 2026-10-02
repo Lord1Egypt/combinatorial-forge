@@ -8,6 +8,7 @@
 #include "jobs.hpp"
 #include "json.hpp"
 #include "lights.hpp"
+#include "nqueens.hpp"
 #include "puzzle8.hpp"
 #include "tictactoe.hpp"
 
@@ -160,6 +161,34 @@ inline Json chess_position(const std::string& text) {
     return out;
 }
 
+// First `limit` solutions in lexicographic order as column lists (one entry per row).
+inline void collect_queens(int n, const nqueens::Prefix& p, std::vector<int>& columns, size_t limit, Json& out) {
+    if (out.items().size() >= limit) return;
+    if (p.depth == n) {
+        Json solution = Json::array();
+        for (int c : columns) solution.push(c);
+        out.push(solution);
+        return;
+    }
+    for (int col = 0; col < n && out.items().size() < limit; ++col) {
+        nqueens::Prefix next = p;
+        if (!nqueens::place(n, next, col)) continue;
+        columns.push_back(col);
+        collect_queens(n, next, columns, limit, out);
+        columns.pop_back();
+    }
+}
+
+inline Json queens_examples(int n, int limit) {
+    if (n < 1 || n > 16 || limit < 1 || limit > 12) throw std::invalid_argument("n must be 1..16 and limit 1..12");
+    Json solutions = Json::array();
+    std::vector<int> columns;
+    collect_queens(n, nqueens::Prefix{}, columns, size_t(limit), solutions);
+    Json out = Json::object();
+    out.set("n", n); out.set("solutions", solutions);
+    return out;
+}
+
 inline Json dispatch(const Json& request) {
     const std::string method = request.at("method").as_string();
     const Json params = request.has("params") ? request.at("params") : Json::object();
@@ -193,6 +222,7 @@ inline Json dispatch(const Json& request) {
         return ok(out);
     }
     if (method == "result.hash") return ok(Json(sha256_hex(params.at("result").dump())));
+    if (method == "nqueens.examples") return ok(queens_examples(int(params.at("n").as_int()), params.has("limit") ? int(params.at("limit").as_int()) : 4));
     if (method == "ttt.position") return ok(ttt_position(params.at("board").as_string()));
     if (method == "ttt.stats") return ok(ttt_stats());
     if (method == "puzzle8.solve") return ok(puzzle8_solve(params.at("board").as_string()));
