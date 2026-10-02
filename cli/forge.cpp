@@ -204,20 +204,21 @@ int cmd_merge(const Args& args) {
     if (args.positional.size() != 3) throw std::invalid_argument("merge needs A.sqlite B.sqlite OUT.sqlite");
     std::ifstream exists(args.positional[2]);
     if (exists) throw std::runtime_error("output database already exists; refusing to overwrite " + args.positional[2]);
-    Db out(args.positional[2]);
-    migrate(out);
+    auto out = std::make_unique<Db>(args.positional[2]);
+    migrate(*out);
     Json combined = Json::object();
     try {
         for (int i = 0; i < 2; ++i) {
             Db source(args.positional[size_t(i)], true);
-            Json report = import_snapshot(out, export_snapshot(source, 99), args.get("resolve"));
+            Json report = import_snapshot(*out, export_snapshot(source, 99), args.get("resolve"));
             combined.set(i == 0 ? "a" : "b", report);
         }
     } catch (const ConflictError& conflict) {
         Json result = Json::object();
         result.set("error", conflict.what()); result.set("conflicts", conflict.report);
         std::cout << result.dump() << "\n";
-        out.exec("PRAGMA wal_checkpoint(TRUNCATE)");
+        out->exec("PRAGMA wal_checkpoint(TRUNCATE)");
+        out.reset();  // Windows will not remove a SQLite file while it is open.
         std::remove(args.positional[2].c_str());
         return 3;
     }
