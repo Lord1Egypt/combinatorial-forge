@@ -1,0 +1,11 @@
+/build*/
+/cmake-build-*/
+__pycache__/
+*.py[cod]
+*.exe
+*.o
+*.obj
+*.a
+*.lib
+.DS_Store
+Thumbs.db
